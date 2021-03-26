@@ -1,0 +1,36 @@
+{
+  "title": "Introducing Fela 6.0",
+  "date": {
+    "day": 22,
+    "month": 9,
+    "year": 2017
+  },
+  "headings": [
+    [
+      "Caching Mechanism",
+      "caching-mechanism",
+      2
+    ],
+    [
+      "babel-plugin-fela",
+      "babel-plugin-fela",
+      2
+    ],
+    [
+      "PubSub ThemeProvider",
+      "pubsub-themeprovider",
+      2
+    ],
+    [
+      "@supports",
+      "@supports",
+      2
+    ],
+    [
+      "Other Improvements",
+      "other-improvements",
+      2
+    ]
+  ],
+  "duration": 3
+}

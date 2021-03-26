@@ -1,0 +1,61 @@
+{
+  "title": "Style as a Function of State",
+  "date": {
+    "day": 25,
+    "month": 10,
+    "year": 2016
+  },
+  "headings": [
+    [
+      "Background",
+      "background",
+      2
+    ],
+    [
+      "v = f(d)",
+      "v-=-f(d)",
+      2
+    ],
+    [
+      "style = ?",
+      "style-=-?",
+      2
+    ],
+    [
+      "But Why?",
+      "but-why?",
+      2
+    ],
+    [
+      "s = f(d)",
+      "s-=-f(d)",
+      2
+    ],
+    [
+      "But inline styles suck!",
+      "but-inline-styles-suck!",
+      2
+    ],
+    [
+      "Fela",
+      "fela",
+      2
+    ],
+    [
+      "Renderer",
+      "renderer",
+      3
+    ],
+    [
+      "Rules",
+      "rules",
+      3
+    ],
+    [
+      "render",
+      "render",
+      3
+    ]
+  ],
+  "duration": 9
+}

@@ -1,0 +1,106 @@
+{
+  "title": "Interactive & Dynamic Force-Directed Graphs with D3",
+  "date": {
+    "day": 13,
+    "month": 2,
+    "year": 2017
+  },
+  "headings": [
+    [
+      "Background",
+      "background",
+      2
+    ],
+    [
+      "Requirements",
+      "requirements",
+      3
+    ],
+    [
+      "Why D3?",
+      "why-d3?",
+      3
+    ],
+    [
+      "Data",
+      "data",
+      2
+    ],
+    [
+      "Nodes",
+      "nodes",
+      3
+    ],
+    [
+      "Links",
+      "links",
+      3
+    ],
+    [
+      "Implementation",
+      "implementation",
+      2
+    ],
+    [
+      "Displaying Nodes",
+      "displaying-nodes",
+      3
+    ],
+    [
+      "Relations",
+      "relations",
+      3
+    ],
+    [
+      "User Interaction",
+      "user-interaction",
+      3
+    ],
+    [
+      "Drag & Drop",
+      "drag-&-drop",
+      3
+    ],
+    [
+      "Highlight Selection",
+      "highlight-selection",
+      3
+    ],
+    [
+      "Dynamic Updates",
+      "dynamic-updates",
+      3
+    ],
+    [
+      "Updating the Data",
+      "updating-the-data",
+      3
+    ],
+    [
+      "Updating the Nodes & Links",
+      "updating-the-nodes-&-links",
+      3
+    ],
+    [
+      "Updating the Simulation",
+      "updating-the-simulation",
+      3
+    ],
+    [
+      "Styling & Visual Design",
+      "styling-&-visual-design",
+      3
+    ],
+    [
+      "Demo",
+      "demo",
+      2
+    ],
+    [
+      "Conclusion",
+      "conclusion",
+      2
+    ]
+  ],
+  "duration": 19
+}

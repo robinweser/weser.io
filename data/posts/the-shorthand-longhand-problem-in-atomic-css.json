@@ -1,0 +1,86 @@
+{
+  "title": "The Shorthand-Longhand Problem in Atomic CSS",
+  "date": {
+    "day": 14,
+    "month": 12,
+    "year": 2020
+  },
+  "headings": [
+    [
+      "Terminology",
+      "terminology",
+      2
+    ],
+    [
+      "CSS Specificity",
+      "css-specificity",
+      3
+    ],
+    [
+      "The Cascade",
+      "the-cascade",
+      3
+    ],
+    [
+      "Shorthand & Longhand Properties",
+      "shorthand-&-longhand-properties",
+      3
+    ],
+    [
+      "Atomic CSS",
+      "atomic-css",
+      3
+    ],
+    [
+      "Atomic CSS-in-JS Libraries",
+      "atomic-css-in-js-libraries",
+      2
+    ],
+    [
+      "The Problem",
+      "the-problem",
+      2
+    ],
+    [
+      "Possible Solutions",
+      "possible-solutions",
+      2
+    ],
+    [
+      "Developer Discipline",
+      "developer-discipline",
+      3
+    ],
+    [
+      "Warnings & Linting",
+      "warnings-&-linting",
+      3
+    ],
+    [
+      "Expanding Shorthands",
+      "expanding-shorthands",
+      3
+    ],
+    [
+      "Ordering Rules",
+      "ordering-rules",
+      3
+    ],
+    [
+      "Repeated Selectors",
+      "repeated-selectors",
+      3
+    ],
+    [
+      "Conclusion",
+      "conclusion",
+      2
+    ],
+    [
+      "Credits",
+      "credits",
+      2
+    ]
+  ],
+  "duration": 14
+}

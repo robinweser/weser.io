@@ -1,0 +1,76 @@
+{
+  "title": "Using an iPhone as a Mac Webcam",
+  "date": {
+    "day": 12,
+    "month": 10,
+    "year": 2020
+  },
+  "headings": [
+    [
+      "OBS Setup",
+      "obs-setup",
+      2
+    ],
+    [
+      "Virtual Cam",
+      "virtual-cam",
+      3
+    ],
+    [
+      "iPhone Setup",
+      "iphone-setup",
+      2
+    ],
+    [
+      "App Support",
+      "app-support",
+      2
+    ],
+    [
+      "Code Signing",
+      "code-signing",
+      3
+    ],
+    [
+      "Generating a Apple Developer certificate",
+      "generating-a-apple-developer-certificate",
+      4
+    ],
+    [
+      "Zoom",
+      "zoom",
+      3
+    ],
+    [
+      "Teams",
+      "teams",
+      3
+    ],
+    [
+      "Skype",
+      "skype",
+      3
+    ],
+    [
+      "Slack",
+      "slack",
+      3
+    ],
+    [
+      "Other Electron-based Apps",
+      "other-electron-based-apps",
+      4
+    ],
+    [
+      "Conclusion",
+      "conclusion",
+      2
+    ],
+    [
+      "Credits",
+      "credits",
+      2
+    ]
+  ],
+  "duration": 12
+}

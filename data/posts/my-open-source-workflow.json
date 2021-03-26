@@ -1,0 +1,96 @@
+{
+  "title": "My Open Source Workflow",
+  "date": {
+    "day": 21,
+    "month": 12,
+    "year": 2020
+  },
+  "headings": [
+    [
+      "Goals",
+      "goals",
+      2
+    ],
+    [
+      "Templates",
+      "templates",
+      2
+    ],
+    [
+      "Other Dotfiles",
+      "other-dotfiles",
+      3
+    ],
+    [
+      "Labels",
+      "labels",
+      2
+    ],
+    [
+      "Pull Requests",
+      "pull-requests",
+      2
+    ],
+    [
+      "Reviews",
+      "reviews",
+      3
+    ],
+    [
+      "Restricted Branches",
+      "restricted-branches",
+      3
+    ],
+    [
+      "Squash & Merge",
+      "squash-&-merge",
+      3
+    ],
+    [
+      "Continuous Integration",
+      "continuous-integration",
+      2
+    ],
+    [
+      "Continuous Delivery",
+      "continuous-delivery",
+      2
+    ],
+    [
+      "Releases",
+      "releases",
+      2
+    ],
+    [
+      "Announcements",
+      "announcements",
+      3
+    ],
+    [
+      "Support & Discussions",
+      "support-&-discussions",
+      2
+    ],
+    [
+      "Notifications",
+      "notifications",
+      2
+    ],
+    [
+      "What I'd love to have",
+      "what-i'd-love-to-have",
+      2
+    ],
+    [
+      "Conclusion",
+      "conclusion",
+      2
+    ],
+    [
+      "Credits",
+      "credits",
+      2
+    ]
+  ],
+  "duration": 6
+}

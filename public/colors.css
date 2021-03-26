@@ -1,0 +1,32 @@
+.light {
+  --foreground: rgb(30, 30, 30);
+  --foreground-light: rgb(60, 60, 60);
+  --foreground-grey: rgb(90, 90, 90);
+  --foreground-transparent: rgba(60, 60, 60, 0.3);
+  --background: white;
+  --background-alternate: rgb(240, 240, 240);
+  --background-code: rgb(245, 245, 245);
+  --background-code-title: rgb(220, 220, 220);
+  --highlight: rgba(149, 199, 198, 0.2);
+}
+
+.dark {
+  --foreground: rgb(230, 230, 230);
+  --foreground-light: rgb(200, 200, 200);
+  --foreground-grey: rgb(150, 150, 150);
+  --foreground-transparent: rgba(180, 180, 180, 0.3);
+  --background: rgb(30, 30, 30);
+  --background-alternate: rgb(40, 40, 40);
+  --background-code: rgb(45, 45, 45);
+  --background-code-title: rgb(37, 37, 37);
+  --highlight: rgba(149, 199, 198, 0.1);
+}
+
+.dark img {
+  filter: brightness(0.8) contrast(1.2);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}

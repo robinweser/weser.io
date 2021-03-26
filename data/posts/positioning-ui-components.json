@@ -1,0 +1,76 @@
+{
+  "title": "Positioning UI Components",
+  "date": {
+    "day": 7,
+    "month": 2,
+    "year": 2019
+  },
+  "headings": [
+    [
+      "The Positioning Problem",
+      "the-positioning-problem",
+      2
+    ],
+    [
+      "Component vs. Container",
+      "component-vs.-container",
+      3
+    ],
+    [
+      "Component-based approach",
+      "component-based-approach",
+      4
+    ],
+    [
+      "Container-based approach",
+      "container-based-approach",
+      4
+    ],
+    [
+      "Comparison",
+      "comparison",
+      3
+    ],
+    [
+      "Separation of Concerns",
+      "separation-of-concerns",
+      3
+    ],
+    [
+      "The Solution",
+      "the-solution",
+      2
+    ],
+    [
+      "Performance & Bundle Size",
+      "performance-&-bundle-size",
+      4
+    ],
+    [
+      "Scalability & Maintainability",
+      "scalability-&-maintainability",
+      4
+    ],
+    [
+      "Spacer component",
+      "spacer-component",
+      2
+    ],
+    [
+      "Absolute Size",
+      "absolute-size",
+      4
+    ],
+    [
+      "Flexbox",
+      "flexbox",
+      4
+    ],
+    [
+      "Credits",
+      "credits",
+      2
+    ]
+  ],
+  "duration": 7
+}

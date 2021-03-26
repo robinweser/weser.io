@@ -1,0 +1,53 @@
+import BlogLayout from '../../components/BlogLayout'
+import data from '../../data/posts/the-future-of-fela.json'
+
+export const meta = {
+  title: 'The Future of Fela',
+  date: {
+    day: 22,
+    month: 10,
+    year: 2018,
+  },
+}
+
+export default ({ children }) => <BlogLayout {...data}>{children}</BlogLayout>
+
+## Retrospective
+
+It feels like yesterday, when I started designing the API for a brand new CSS in JS library using my learnings from [react-look](https://github.com/weserio/react-look). There was a lot of discussion on separation of concerns, runtime performance issues and static style extraction and tons of different libraries emerged every day.
+
+[Fela](https://github.com/weserio/fela) was one of those. Now it’s already more than 2 years old and a lot has happened in the last 2 years. More and more people started using JavaScript-based styling solutions and they got smaller, faster and way more user-friendly. Apart from the most popular solutions like [styled-components](http://styled-components.com/) and [emotion](https://emotion.sh/), Fela got adopted by quite a few companies including HelloFresh, CloudFlare, N26 and Volvo Cars. Even [Microsoft is currently experimenting with it](https://github.com/weserio/fela/pull/597#issuecomment-413989631).
+
+## Today
+
+With more and more users, we also faced more and more use cases and thus issues, bugs and feature requests to widely support most common cases.  
+With every PR we improved the power and abilities of Fela and it feels great to introduce even more features and benefits to our users.  
+**But**, we also increase complexity and dubiety, which turns out to be a serious problem in many aspects. It increases the chance of unintended misuse, unknown or hidden bugs and issues and last but not least the cost of maintenance. As a side effects, we might face performance loss, increased bundle size, outdated documentation and eventually unhappiness on both sides.
+
+Actually, I am not working on Fela that often these days. I frequently use a carefully selected fraction of its APIs and am super happy with it. Yet, I feel bad about all the open issues but also overstrained and depressed when trying to fix those, because it got way to complex and I can barely keep track of all the different use cases not to mention the edge cases.  
+In order to improve maintainability, responsibility and intelligibility, I decided to introduce [important changes to Fela](https://github.com/weserio/fela/pull/597) in the future.
+
+## The Future
+
+The main goal is to embrace simplicity. This especially applies to Fela’s bindings ([react-fela](https://github.com/weserio/fela/tree/master/packages/react-fela), [inferno-fela](https://github.com/weserio/fela/tree/master/packages/inferno-fela), [preact-fela](https://github.com/weserio/fela/tree/master/packages/preact-fela)) which are all based on the same abstraction ([fela-bindings](https://github.com/weserio/fela/tree/master/packages/fela-bindings)). Instead of many different APIs with tons of different usage options, we rather thrive for a single simple API with a set of carefully selected options: [**FelaComponent**](http://fela.js.org/docs/api/bindings/FelaComponent.html).
+
+But, that doesn’t mean you won’t be able to cover all those use cases. In fact, it evens fixes some long standing issues. The important part is gaining enough flexibility to move all the different use/edge cases to the user land.  
+Doing that, we even gain a lot of other indirect benefits such as simpler documentation, smaller bundle sizes and eventually faster rendering.  
+It also helps us to improve faster, e.g. supporting React 16.
+
+## Migration
+
+If you’re depending on Fela’s soon _deprecated_ APIs you might be scared now. Does it mean we have to migrate everything? Does it mean we have to refactor our whole codebase? The short answer: **No**.  
+To make this process as smooth and simple as possible, we’re trying to provide codemods for most use cases. We’ll also add enough information to the migration guide. Apart from that, we’re always there to help, so don’t hesitate to connect on Gitter. Also, we won’t remove those deprecated APIs right away, which means they can still receive fixes and improvements.  
+Last but not least, if you’re not happy with those changes at all, feel free to fork the current API and maintain your own bindings. This way everyone is happy, but we don’t have to consider them when doing future updates.
+
+## Benefits
+
+With all the above mention changes, there will be a lot of benefits after all. Some aspects have already been said before, but in order to give a short summary, the following things are most likely to happen soon:
+
+- **Full React 16 Support** (new Context API for Theming, progressive rendering with _renderToNodeStream_ and native refs instead of _innerRef_)
+- **Smaller bundles** (especially react-fela)
+- **Faster Rendering** ([up to 50% faster](https://twitter.com/rofrischmann/status/1042714100667695104))
+- **More Stable & Robust API**
+- **Less Major Changes**
+- **Faster Progress**

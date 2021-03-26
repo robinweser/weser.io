@@ -1,0 +1,147 @@
+import BlogLayout from '../../components/BlogLayout'
+import data from '../../data/posts/style-as-a-function-of-state.json'
+
+export const meta = {
+  title: 'Style as a Function of State',
+  date: {
+    day: 25,
+    month: 10,
+    year: 2016,
+  },
+}
+
+export default ({ children }) => <BlogLayout {...data}>{children}</BlogLayout>
+
+It’s been almost 2 years since [Christopher Chedeau aka Vjeux](https://twitter.com/vjeux) initially introduced the concept of [CSS in JS](https://speakerdeck.com/vjeux/react-css-in-js). A lot has happened since then and [tons of fancy libraries](https://github.com/MicheleBertoli/css-in-js) have been released, all (of course) pretending to solve all the problems once and for all. But don’t get me wrong. I am not criticising these solutions at all. Far from it! I even built two solutions myself. So, if at all, I should be blamed for pushing yet another CSS in JS solution.
+
+Nevertheless I am here to share my thoughts about CSS in JS techniques and what I believe to be the most important feature of using JavaScript for styling purpose.
+
+## Background
+
+First of all, I want to provide some background information about where my idea comes from and how it evolved: CSS was once created to explicitly style static web content which I will later refer to as static websites. These websites have been rendered once at startup and would eventually not change at all. There was not much user interaction and UX back then.
+
+As the years passed by, the web evolved exponentially and so did the expectation of modern web users. That’s when web applications were born. Next to all the fancy new features, also came a huge burden for modern web developer. State. The simple and static websites turned into complex and stateful applications. From that day on, engineers all over the world tried to solve the upcoming problems with full-featured frameworks, purpose-made architectures and complex abstractions.
+
+Yet, we somehow still struggled to keep the UI in sync with our state. Until, at least for myself, libraries like [React](https://facebook.github.io/react/) or even whole new languages like [Elm](http://elm-lang.org/) got introduced.
+
+## v = f(d)
+
+The above formula indeed is not the one used to calculate velocity, but rather represents the basic understanding of what a view actually is, in context of a declarative library such as React. **A function of state**. It was, as far as I know, first introduced by [Lee Byron](https://twitter.com/leeb) during his [amazing talk](https://vimeo.com/166790294) at the Render 2016 conference. _(If you haven’t, make sure to check it out. It is totally worth it)_
+The idea is simple. You pass your relevant data in, and get a declarative representation of what should be displayed out. The data most likely some consists of parts of your application state. Here’s a really simple example:
+
+```jsx
+const view = (state) => <div>You got {state.followers} followers!</div>
+```
+
+Now assume our initial state sets follower to 0. We will see the following text in our app.
+
+> You got 0 followers!
+
+Luckily, we eventually managed to get some people’s interest and got a neat amount of 20 followers. As the state updates the view automatically also rerenders. It receives the new state and updates the DOM to output the following text.
+
+> You got 20 followers!
+
+Intense magic, huh? Actually not. Using this very simple principle, we are able to compose complex **state-aware UI** that ensures to be always be in sync with the state.
+
+## style = ?
+
+Right now, we got a well-crafted reactive view which always displays the correct amount of followers at a given point of time. So far so good. Now let’s add some fancy styles to also make it look really badass. For example, we want to have the text displayed in red if we have less than 10 followers and displayed in green starting at 20 followers.  
+Traditionally, we would have different CSS classes with each setting the color property. e.g.
+
+```css
+.text_red {
+  color: red;
+}
+
+.text_green {
+  color: green;
+}
+```
+
+Very basic. Now we have to add these styles to our view by simply referencing the className. The updated view will look something like this:
+
+```jsx
+const view = (state) => (
+  <div className={state.followers >= 20 ? 'text_green' : 'text_red'}>
+    You got {state.followers} followers!
+  </div>
+)
+```
+
+This works quite fine and was not too hard anyway. But… let’s say we now want to display the text in a nice yellow _(remember, with yellow text comes great UX)_ if we have 10–19 followers.  
+We would most likely add another CSS class and link it to the view, actually making the className expression even more verbose. You might now get why this often does not scale well and is quite hard to maintain. And always remember, this is just a very basic and simple example, far away from complex real-world application styling.
+
+## But Why?
+
+You may now think about why this even occurs? I believe, the problem lies in the design of CSS itself. I am not saying CSS is bad, but the way it was intended to be used is not something that fits very well into nowadays requirements. After all, **it was built to style static content**.  
+Now, every time we want to change the visual behavior, we have to make sure to explicitly link to the right static asset or else it will fail.  
+Not only does this create some kind of dependency, but first and foremost does it **contravene with the reactive and pure nature of our view** itself. Instead of updating the style, we have to switch references to static assets?
+
+## s = f(d)
+
+The view representation does not only tell **what** to display, but also **how** to. The data _(application state)_ therefore is primary responsible for how something is displayed. Remember the followers example? The text color changed **depending on** the follower count.  
+So how comes we still use static style assets which are totally unaware of the current environment? Imagine our styles would be functions and would automatically update if the state changes as well.  
+Actually that’s quite easy. Consider the following example:
+
+```jsx
+const style = (state) => ({
+  color: state.followers >= 20 ? 'green' : 'red',
+})
+
+const view = (state) => (
+  <div style={style(state)}>You got {state.followers} followers!</div>
+)
+```
+
+Pretty cool, isn’t it? Every time the state updates, we now can ensure that the style gets updated too. Sure, if we return the wrong style object, we still might get the wrong styling applied. It’s more about the concept itself and the theoretical idea of **style as a function of state**. Yet, I believe it comes with several benefits and is much easier to maintain, debug and understand. Also refactoring and adding new style is rather simple compared to the traditional way. Also it is **functional** and **pure** _(at least if you only use pure functions)_ which makes it **predictable** as well as kind of reactive. After all, it **ensures that the correct styles are added at any given point of time**.
+
+## But inline styles suck!
+
+You might have noticed that the example, however, uses inline styles and as we all know inline styles lack a lot of CSS features. Again, I am not saying that inline styles are bad, but that’s not something I want to discuss either.  
+Truth is, with CSS behind, the solution would be even more useful and not restrict the use cases and features. Luckily, I already built a production-ready version of this concept. It’s called **[Fela](https://github.com/weserio/fela)**. _This post is not about promoting Fela, but I am still asking you to at least try it and form an opinion. (Feedback is highly welcome)_
+
+## Fela
+
+I will now try to give a quick example of how Fela is used. It is **framework-agnostic**, but was especially designed to be used together with React, to be fair. The following example shows only the minimum setup to render the follower example from above. In a real-world application, it would actually look a bit different, but I will describe that right after the example.
+
+```jsx
+import { createRenderer, render } from 'fela'
+
+// creates a new renderer to render styles
+const renderer = createRenderer()
+
+// rules are just plain functions
+// returning a valid style object
+const rule = (state) => ({
+  color:
+    state.followers >= 20 ? 'green' : state.followers >= 10 ? 'yellow' : 'red',
+})
+
+const View = (state) => {
+  // rendering rules returns a className reference
+  // which can be attached to any element
+  const className = renderer.renderRule(rule, state)
+
+  return <div className={className}>You got {state.followers} followers!</div>
+}
+
+// renders all styles into the DOM
+render(renderer)
+
+ReactDOM.render(<View followers={15} />, document.body)
+```
+
+### Renderer
+
+The renderer is the most important part of Fela. You can think of the renderer in Fela as the store in Redux. Also, similar to Redux, you only have **one global renderer** which gets passed down the component tree via context _(using a Provider component)_.
+It ships APIs to render all kind of CSS stuff including **fonts**, **keyframes** and **static/global styles**. It also **diffs** and **caches** styles in order to return the minimum amount of CSS, as fast as possible.
+
+### Rules
+
+Then there are the so called rules. They represent the style functions from above and accept any valid style object, including **pseudo classes**, **media queries** and **other selectors**, to be returned.
+
+### render
+
+Finally, the render-method _(line 26)_ renders all the styles into a valid DOM node. It also keeps track of changes and automatically updates the node in the most performant way possible.  
+That’s it. Of course, there are many more features and details, but I wont repeat them here as well. Furthermore, if you’re interested, I invite you to read the [full documentation](http://fela.js.org/) which provides much more background information and implementation details. One thing worth mentioning is the highly **extendable plugin-system** which adds **vendor prefixing**, **fallback values**, **extending** or even **style validation** as well as much more.  
+Oh, and of course, it supports [universal rendering](http://fela.js.org/docs/advanced/ServerRendering.html) aka server-side rendering by **extracting all static styles**.

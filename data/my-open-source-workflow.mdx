@@ -1,0 +1,138 @@
+import BlogLayout from '../../components/BlogLayout'
+import data from '../../data/posts/my-open-source-workflow.json'
+
+export const meta = {
+  title: 'My Open Source Workflow',
+  date: {
+    day: 21,
+    month: 12,
+    year: 2020,
+  },
+}
+
+export default ({ children }) => <BlogLayout {...data}>{children}</BlogLayout>
+
+In this article, I'd like to talk about my open source workflow.
+I could also call it my GitHub setup, because that's essentially what it is, but most of the aspects are more or less adaptable to all Git hosting platforms.
+This workflow is nothing I just came up with, but it rather evolved over the last years of daily usage.
+Most experience comes from maintaining [Fela](https://fela.js.org), which is structured as a [monorepo]() containing over 50 separate packages.
+
+> **Disclaimer**: This article requires basic knowledge about GitHub, how it works and most of its core features such as issues, pull requests and releases.
+
+## Goals
+
+First of all, I want to briefly talk about what I wanted to achieve and what I aimed for when doing open source work.
+
+1. I want it to be simple for other people to participate and contribute
+2. I want it to be simple to review PRs, including a live preview where it makes sense
+3. I want to have automated quality assurance, including testing, linting and type-checking
+4. I want to have a clean branching system so that I can easily revert changes if required
+5. I want to have a clever release stategy, with as little as possible manual work
+
+Now that we know my goals, let's jump right into each aspect.
+They're in no particular order and I might not go into detail on some of them, but thought it's worth mentioning them.
+
+## Templates
+
+The first thing I want to mention are GitHub Templates.
+They're easy to add and create immediate value for everyone working with and contributing to your project.
+They guide people to provide all required information for issues and pull requests to be processed as quickly as possible.
+We can either create them manually, or use the GitHub Web interfaces to do so.
+They'll end up in a `.github` folder at the root of your project and are currently available for issues and pull requests.
+
+> **Tip**: We can have separate issue templates for bug reports and feature requests.
+
+I usually copy my templates and adapt them for each project.
+My pull request template includes a couple of items that help contributors to fill out the required information such as a **description**, a (live) **example** or a quality assurance **checklist**.
+
+Here's a example how this might look like:
+
+```md name=PULL_REQUEST_TEMPLATE.md
+## Description
+
+<!-- Add a description here -->
+
+## ToDo
+
+<!-- If this PR is work in progress, optionally add the missing ToDos -->
+
+- [ ]
+
+## Example
+
+<!-- If required, add a code example or a link to a working example (repository) -->
+
+## Packages
+
+<!-- List all packages that have been changed. -->
+
+-
+
+## Versioning
+
+None / Patch / Minor / Major
+
+## Checklist
+
+#### Quality Assurance
+
+> You can also run `yarn run check` to run all 4 commands at once.
+
+- [ ] The code was formatted using Prettier (`yarn run format`)
+- [ ] The code has no linting errors (`yarn run lint`)
+- [ ] All tests are passing (`yarn run test`)
+- [ ] There are no type errors (`yarn run types`)
+
+#### Changes
+
+If one of the following checks doesn't make sense due to the type of PR, just check them.
+
+- [ ] Tests have been added/updated
+- [ ] Documentation has been added/updated
+- [ ] My changes have proper types
+```
+
+Here's an example how it looks when filled out: [fela#823](https://github.com/robinweser/fela/pull/823).
+
+### Other Dotfiles
+
+Next to issue and pull request templates, we can have a couple of other "dotfiles" in our repository:
+
+- **CONTRIBUTING.md**: This file, as the name implies, describes how to contribute to the project. It should include instructions for project setup, quality assurance, running examples, how to update documentation and whatever else is important to create a successful pull request. The more people can do themselves, the less do we have to do as maintainers.
+- **CODE_OF_CONDUCT.md**: A code of conduct provides general guidance on behavior within your repository. Usually, we want people to be friendly, respectful and patient. A code of conduct also serves as a reference whenever people misbehave in any way, so we don't have to deal with that!
+- **FUNDING.md**: Additionally, we can have a funding file which defines how to (financially) sponsor the project. If setup correctly, we'll find a "Sponsor" button right on the GitHub repository.
+
+## Labels
+
+Labels are especially helpful if we have to deal with big amounts of issues. They provide context, status information and can be used to search and filter issues accordingly.
+I won't go into detail on this one, since everyone has their own format for labels. I'm using a `[Type]: Value` format and can only recommend it. Common types would be **Difficulty**, **Priority**, **Scope**, **Type** and **Status**.
+
+Here're some examples:
+
+// ADD EXAMPLE
+
+## Pull Requests
+
+### Reviews
+
+### Restricted Branches
+
+### Squash & Merge
+
+## Continuous Integration
+
+## Continuous Delivery
+
+## Releases
+
+### Announcements
+
+## Support & Discussions
+
+## Notifications
+
+## What I'd love to have
+
+## Conclusion
+
+## Credits

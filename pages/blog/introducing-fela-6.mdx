@@ -1,0 +1,68 @@
+import BlogLayout from '../../components/BlogLayout'
+import data from '../../data/posts/introducing-fela-6.json'
+
+import { FelaLogo } from '../../components/posts/introducing-fela-6'
+
+export const meta = {
+  title: 'Introducing Fela 6.0',
+  date: {
+    day: 22,
+    month: 9,
+    year: 2017,
+  },
+}
+
+export default ({ children }) => <BlogLayout {...data}>{children}</BlogLayout>
+
+<FelaLogo />
+
+<div
+  style={{
+    fontSize: 13,
+    paddingTop: 10,
+  }}>
+  Fela finally got an official logo! Thanks to Art (http://arturmuller.com)
+</div>
+
+<br />
+
+While the public API of both the main package as well as most plugins and bindings
+has been pretty stable the last couple of releases, a lot has changed within the
+underlaying implementation.
+
+[On our mission](https://opencollective.com/fela) to provide the most powerful styling toolbelt, we are proud to announce a whole new major version of [Fela](http://fela.js.org/)! Let’s dive into the changes and how it improves your application and experience:
+
+## Caching Mechanism
+
+Up to this day, multiple string caches including pure CSS strings were used together with a key-className cache to skip rendered classNames directly. That enabled super fast string rendering for SSR and development mode, but was rather irrelevant for production mode anyways.
+The new implementation now uses a key-reference cache where the reference is an object containing everything we need to render styles.
+
+With the new mechanism, we are now able to properly **rehydrate server-side rendered markup on the client**. This improves initial rendering times a lot!  
+Apart from that it was required to fully precompile rules during compilation using our brand new babel plugin.
+
+## [babel-plugin-fela](https://github.com/weserio/fela/tree/master/packages/babel-plugin-fela)
+
+With this release, the very first version of Fela’s new [babel plugin](https://github.com/weserio/fela/tree/master/packages/babel-plugin-fela) has been published as well. It **extracts static style declarations** and **pre-renders** those during source code compilation in order to **optimize bundle size** and **rendering performance**.
+Right now, it is pretty limited and only works with the [createComponent-HoC](https://github.com/weserio/fela/blob/master/packages/react-fela/docs/createComponent.md) provided by [react-fela](https://github.com/weserio/fela/tree/master/packages/react-fela), [preact-fela](https://github.com/weserio/fela/tree/master/packages/preact-fela) and [inferno-fela](https://github.com/weserio/fela/tree/master/packages/inferno-fela). However, further use cases will be shipped soon.
+
+## PubSub ThemeProvider
+
+Theming with the built-in [ThemeProvider](https://github.com/weserio/fela/blob/master/packages/react-fela/docs/ThemeProvider.md) has been completely rewritten. The old implementation was purely based on [React’s context](https://facebook.github.io/react/docs/context.html). It was working great with static themes and provided every Fela component with an additional theme object by default.
+Dynamic changes to the theme, however, might have been [missed due to the fact that React’s context is not updated for child components if any parent component implements shouldComponentUpdate validating to false](https://medium.com/@mweststrate/how-to-safely-use-react-context-b7e343eff076). (e.g. if you’re using react-redux’s connect-HoC).
+
+To support real dynamic theming, the [ThemeProvider](https://github.com/weserio/fela/blob/master/packages/react-fela/docs/ThemeProvider.md) has been refactored and is now built on the [**publish-subscribe design pattern**](https://en.wikipedia.org/wiki/Publish–subscribe_pattern).  
+Additionally, we now ship a [**withTheme-HoC**](https://github.com/weserio/fela/blob/master/packages/react-fela/docs/withTheme.md) to safely inject the theme object into any React component.
+
+## @supports
+
+Also for the first time, we now officially support the [@supports CSS syntax](https://developer.mozilla.org/de/docs/Web/CSS/@supports). It can be used just like media queries. We even support nesting which will automatically be resolved to a single concatenated query.
+
+## Other Improvements
+
+Apart from the above major changes, we are happy to add further improvements to Fela. We are even more happy to say, that most of those improvements have been PRs from the community:
+
+- hoisting static component methods
+- right-to-left convertion using [fela-plugin-rtl](https://github.com/weserio/fela/tree/master/packages/fela-plugin-rtl) or [fela-plugin-bidi](https://github.com/weserio/fela/tree/master/packages/fela-plugin-rtl)
+- blocking ad-sensitive classNames by default
+- using [styles-debugger](https://github.com/kitze/styles-debugger) for [layout debugging](https://github.com/weserio/fela/tree/master/packages/fela-layout-debugger)
+- overall TypeScript definition improvements

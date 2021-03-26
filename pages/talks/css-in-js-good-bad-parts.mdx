@@ -1,0 +1,27 @@
+import YouTube from 'react-youtube'
+import BlogLayout from '../../components/BlogLayout'
+
+export const meta = {
+  title: 'CSS in JS: The Good & Bad Parts',
+  duration: 25,
+  date: {
+    day: 30,
+    month: 10,
+    year: 2017,
+  },
+}
+
+export default ({ children }) => <BlogLayout meta={meta}>{children}</BlogLayout>
+
+<YouTube videoId="95M-2YzyTno" className="video-box" />
+
+## Abstract
+
+Almost 3 years ago, the first experiments concerning “CSS in JS” have emerged. In 2017 - at least since styled-components got released - writing styles in JavaScript is not at all experimental anymore. Many developers are still sceptical about it. This talk summarises both the good and the bad parts as well as the opportunities & future possibilities of CSS in JS. It will help to understand how everyone can benefit from writing styles in JavaScript. It will not give any advice on which implementation to choose.
+
+### [Slides](https://speakerdeck.com/rofrischmann/css-in-js-the-good-and-bad-parts)
+
+### Used At
+
+- [**ReactiveConf**](http://reactiveconf.com/2017) (Bratislava), 2017
+- **dm-drogerie markt DevDay** (Karlsruhe), 2017

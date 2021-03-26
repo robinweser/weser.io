@@ -1,0 +1,190 @@
+import { Box } from 'kilvin'
+import BlogLayout from '../../components/BlogLayout'
+import data from '../../data/posts/positioning-ui-components.json'
+
+import { Button } from '../../components/posts/positioning-ui-components'
+
+export const meta = {
+  title: 'Positioning UI Components',
+  date: {
+    day: 7,
+    month: 2,
+    year: 2019,
+  },
+}
+
+export default ({ children }) => <BlogLayout {...data}>{children}</BlogLayout>
+
+Positioning UI components is one of the main disciplines of frontend engineering as part of the overall layout of a page or application.
+
+While in pre-component era this was pretty straight forward using CSS classes for each section and element, it can be quite a challenging task in modern component-based architectures.
+
+To visualize the problem, let's take a simple Button component. It has some styles including 3 different size variants, a _click handler_ and a button text which is passed as _children_.  
+In React, it would look something like this:
+
+```jsx name=Button.js copy
+const variants = {
+  small: 6,
+  medium: 8,
+  big: 10,
+}
+
+function Button({ children, variant = 'medium', onClick }) {
+  // using inline style here for the sake of simplicity
+  // but this could also be some CSS in JS library or even plain classes
+  const style = {
+    padding: variants[variant],
+    backgroundColor: 'rgb(55, 110, 109)',
+    borderRadius: 5,
+    color: 'white',
+    minWidth: 100,
+    fontSize: 16,
+    margin: 5,
+    border: 0,
+  }
+
+  return (
+    <button style={style} onClick={onClick}>
+      {children}
+    </button>
+  )
+}
+```
+
+<Box
+  paddingTop={4}
+  paddingRight={4}
+  space={2}
+  direction={['column', 'row']}
+  alignItems="flex-start">
+  <Button variant="small">Small</Button>
+  <Button>Medium</Button>
+  <Button variant="big">Big</Button>
+</Box>
+
+## The Positioning Problem
+
+By default, each button has an outer-margin of 5px which is, for example, set by the design language. For most common cases that's just fine, but now comes the hard part.
+
+Imagine at some point you want a button that has a bigger right margin or is aligned at the end of its container.
+
+### Component vs. Container
+
+The hard decision here is whether those styles should belong to the component directly or rather passed to a wrapping container. This problem applies to all properties controlling the layout flow, outer spacings and relative/absolute position.
+
+#### Component-based approach
+
+```jsx
+const Tree = <Button style={{ marginRight: 20 }}>Bigger Margin</Button>
+```
+
+#### Container-based approach
+
+```jsx
+const Tree = (
+  <div style={{ marginRight: 15 }}>
+    <Button>Bigger Margin</Button>
+  </div>
+)
+```
+
+### Comparison
+
+Obviously, both ways have different tradeoffs and it might be hard to decide which one to use after all. Let's try to compare both:
+
+The major benefit of the component-based approach is that we don't have to create unnecessary DOM elements. Also all the styles are tied to the component that they actually "belong" to.  
+Yet, it couples context-sensitive layout information to generic components. That requires style extending logic for every component that can be positioned that way. This can get quite complex, especially when dealing with responsive styles where the same component might be positioned differently for different devices and viewports.
+
+Knowing the pros and cons, we still have to decide which one gives more benefits. To do that, I'd like to add another concept into consideration.
+
+### Separation of Concerns
+
+> Huh? What does separation of concerns have to do with positioning components?
+
+In my opinion, we're dealing with 2 different concerns hear:
+
+1. The visual appearance of a component - its styling.<br />It's what makes the Button look like a button.
+2. The position and spacing of our components - their layout.<br />It's positions our Button in the context of the whole application.
+
+For me, those should not be mixed. Thus, the Button should not know how it is positioned relative to its siblings. That's what it's parent, in that case a wrapping container, should handle.
+
+## The Solution
+
+Therefore, using the container-based approach maintains a clean separation between styling and layout and helps to focus on components themselves. That way, we ensure that components can be reused in any part of the application and also keep their API as simple as possible.  
+It also enforces a consistent visual appearance as we do not directly alter the components.
+
+#### Performance & Bundle Size
+
+Fair enough, adding new DOM nodes is considered a bad practice as it increases the bundle size and might have a performance impact - especially when updating the DOM frequently. But, tools like React help us here. They make sure that DOM nodes only update when their properties actually change.
+
+#### Scalability & Maintainability
+
+Using the container-based approach reduces the dependencies and responsibilities of a component to a bare minimum which comes in handy at scale.
+
+## Spacer component
+
+To reduce the level of nesting and redundant container components, we can leverage a Spacer component that takes care of spacings between individual siblings.
+
+Rather than having a nested tree like this:
+
+```jsx
+const Tree = (
+  <div>
+    <div style={{ marginRight: 15 }}>
+      <Button>First</Button>
+    </div>
+    <div style={{ marginRight: 15 }}>
+      <Button>Second</Button>
+    </div>
+    <Button>Last</Button>
+  </div>
+)
+```
+
+we can do the following:
+
+```jsx
+const Tree = (
+  <div>
+    <Button>First</Button>
+    <Spacer size={15} />
+    <Button>Second</Button>
+    <Spacer size={15} />
+    <Button>Last</Button>
+  </div>
+)
+```
+
+The Spacer component can either be implemented with absolute sizes or using flexbox basis which makes it direction agnostic.
+
+#### Absolute Size
+
+```jsx name=Spacer.js copy
+// requires a direction prop
+const Spacer = ({ size, vertical }) => (
+  <div
+    style={{
+      [vertical ? 'minHeight' : 'minHeight']: size + 'px',
+    }}
+  />
+)
+```
+
+#### Flexbox
+
+```jsx name=Spacer.js copy
+// automatically horizontal/vertical depending on flex-direction
+const Spacer = ({ size }) => (
+  <div
+    style={{
+      flexGrow: 0,
+      flexShrink: 0,
+      flexBasis: size + 'px',
+    }}
+  />
+)
+```
+
+## Credits
+
+Thanks to my friend [Daniel](https://webcloud.se) for reviewing this post.
