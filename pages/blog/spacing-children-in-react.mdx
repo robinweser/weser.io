@@ -1,0 +1,423 @@
+import { Box } from 'kilvin'
+import BlogLayout from '../../components/BlogLayout'
+import data from '../../data/posts/spacing-children-in-react.json'
+
+export const meta = {
+  title: 'Spacing children in React',
+  date: {
+    day: 19,
+    month: 9,
+    year: 2021,
+  },
+}
+
+export default ({ children }) => <BlogLayout {...data}>{children}</BlogLayout>
+
+I was really impressed when [Mark Dalgleish](https://twitter.com/markdalgleish) first introduced me to the `space` prop they built into [Braid Design System](https://github.com/seek-oss/braid-design-system).<br />
+In this post, I want to guide you through the journey of spacing children. From pure CSS solutions, to generic components in React. We'll look at all the potential issues and how to built them most flexible and accessible spacing implementation.
+
+## Spacing children with CSS
+
+Adding equal space between children is such a common task and yet it wasn't as straight-forward as it could be.
+
+> I know, we have CSS Grids and `grid-gap` nowadays, but grid is not always the right solution to it.
+
+Before React and CSS in JS libraries became a thing, we used to add spacing with CSS selectors, e.g.:
+
+> **Note**: Don't get me wrong here. There's nothing bad about pure CSS and selectors, but there're good reasons why people prefer newer solutions.
+
+```css
+.parent .child {
+  margin-bottom: 10px;
+}
+```
+
+<Box
+  marginTop={5}
+  marginBottom={5}
+  extend={{
+    backgroundColor: 'var(--highlight)',
+    '& div': {
+      marginBottom: 10,
+    },
+  }}>
+  {[1, 2, 3].map(() => (
+    <Box
+      width={50}
+      height={50}
+      extend={{ backgroundColor: 'rgb(149, 199, 198)' }}
+    />
+  ))}
+</Box>
+
+Looking at how this renders, we might notice an issue. There's a 10px space **after** the last child as well.
+To fix that, we have to explicity unset the margin/padding for either the first or last child, depending on the property we choose. So our CSS rather looks something like this:
+
+```css
+.parent .child {
+  margin-bottom: 10px;
+}
+
+.parent .child:last-child  {
+  margin-bottom: 0;
+}
+```
+
+<Box
+  marginTop={5}
+  marginBottom={5}
+  extend={{
+    backgroundColor: 'var(--highlight)',
+    '& div:not(:last-child)': {
+      marginBottom: 10,
+    },
+  }}>
+  {[1, 2, 3].map(() => (
+    <Box
+      width={50}
+      height={50}
+      extend={{ backgroundColor: 'rgb(149, 199, 198)' }}
+    />
+  ))}
+</Box>
+
+Fair enough, with modern CSS selectors, we could trim this down to just one selector again:
+
+```css
+.parent .child:not(:last-child)  {
+  margin-bottom: 10px;
+}
+```
+
+But this is still not as simple as I want it to be.
+
+## Spacer component for everything
+
+With Reacts release, we ventured into a new frontend era: component-based design.<br />
+Instead of repeating our HTML and CSS over and over, we're now able to write components once and reuse them everything.
+
+This sourced all kinds of new ways to handle spacing within a component.<br />
+One very common candidate is the [Spacer](/positioning-ui-components#spacer-component) component. It allows us to add spacing in a very declarative and easy-to-understand way:
+
+```jsx
+<Parent>
+  <Child />
+  <Spacer size={10} />
+  <Child />
+  <Spacer size={10} />
+  <Child />
+</Parent>
+```
+
+The main issue with that, is that as soon as the number of children grows it becomes rather repetitive and messy.<br />
+Additionally, most of the time, we don't actually render our children manually, but map over an array to render them.
+
+Doing that, we run into an old problem again: We have to handle the last child.
+
+```jsx
+<Parent>
+  {children.map((child, index, arr) => (
+    <>
+      {child}
+      {index < arr.length && <Spacer size={10} />}
+    </>
+  ))}
+</Parent>
+```
+
+> Another drawback of the Spacer component is the extra amount of empty HTML elements rendered all over the place, but let's ignore that for now.
+
+## The `space` prop
+
+What if, all we have to do is passing a `space` prop to our parent and everything is handled automatically?
+
+```jsx
+<Parent space={10}>{children}</Parent>
+```
+
+It doesn't matter how many children we render, there's always a 10px space in between them.
+
+At first, this might sound really easy to implement, right?<br />
+We basically already solved it in two different ways above, so we can just reuse that logic within our parent component.
+
+### Generic component
+
+Instead of applying to logic to this specific parent-child pair, we can have a generic component. It's usually called `Box` or `View` in many design systems and component libraries.
+
+> I will use a imaginary `css`-prop to simplify the implementation for demo reasons. Many CSS in JS librarires actually provide such a `css` prop or function anyways.
+
+```jsx
+function Box({ space, children }) {
+  return (
+    <div
+      css={{
+        '& > *:not(:last-child)': {
+          marginBottom: space,
+        },
+      }}>
+      {children}
+    </div>
+  )
+}
+```
+
+This can now be reused everywhere!
+
+```jsx
+<Box space={10}>
+  <Child />
+  <Child />
+  <Child />
+</Box>
+```
+
+<Box
+  space={2.5}
+  marginTop={5}
+  marginBottom={5}
+  extend={{
+    backgroundColor: 'var(--highlight)',
+  }}>
+  {[1, 2, 3].map(() => (
+    <Box
+      width={50}
+      height={50}
+      extend={{ backgroundColor: 'rgb(149, 199, 198)' }}
+    />
+  ))}
+</Box>
+
+### Horizontal layouts
+
+Now you might ask, what about horizontal layouts?<br />
+Our current `Box` implementation only works on vertical layouts.<br />
+We could go ahead and rename that to `Vbox` and add another `Hbox` where **V** and **H** stand for vertical and horizontal respectively.
+
+The `Vbox` would use `marginBottom` where the `Hbox` would use `marginRight` instead.<br />
+
+```jsx
+<Vbox space={10}>
+  // we can even nest them
+  <Hbox space={40}>
+    <Child />
+    <Child />
+    <Child />
+  </HBox>
+  <Child />
+  <Child />
+</Vbox>
+```
+
+<Box
+  space={2.5}
+  marginTop={5}
+  marginBottom={5}
+  extend={{
+    backgroundColor: 'var(--highlight)',
+  }}>
+  <Box space={10} direction="row">
+    {[1, 2, 3].map(() => (
+      <Box
+        width={50}
+        height={50}
+        extend={{ backgroundColor: 'rgb(149, 199, 198)' }}
+      />
+    ))}
+  </Box>
+  {[1, 2].map(() => (
+    <Box
+      width={50}
+      height={50}
+      extend={{ backgroundColor: 'rgb(149, 199, 198)' }}
+    />
+  ))}
+</Box>
+
+### Flexbox
+
+We can even be more clever and leverage the flexbox layout system.<br />
+It provides the [`flex-direction`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction) property which decides if items are rendered horizontally or vertically.
+
+If we make our `Box` component a flexbox container, we can check for the direction passed and adapt the margin property accordingly.
+
+```jsx
+function Box({ space, direction = 'row', children }) {
+  const spaceProperty = direction === 'row' ? 'marginRight' : 'marginBottom'
+
+  return (
+    <div
+      css={{
+        display: 'flex',
+        flexDirection: direction,
+        [`& > *:not(:last-child)`]: {
+          [spaceProperty]: space,
+        },
+      }}>
+      {children}
+    </div>
+  )
+}
+```
+
+Now we have one component for both vertical and horizontal spacing!
+
+```jsx
+<Box direction="column" space={10}>
+  // we can even nest them
+  <Box space={40}>
+    <Child />
+    <Child />
+    <Child />
+  </Box>
+  <Child />
+  <Child />
+</Box>
+```
+
+> **Extra**: If we want to support both `row-reverse` and `column-reverse` as well, we'd have to switch `marginRight` to `marginLeft` and `marginBottom` to `marginTop` as well as using the `:first-child` selector instead of `:last-child`.
+
+### Overwriting margins
+
+Our component is already pretty flexible and universally usable, but there's one issue left.<br />
+Since we set a hard margin using the child selector, we run into issues when trying to render a child that has margins itself.<br />
+Instead of fighting a specificity war, we can instead add another wrapping element to prevent that:
+
+```jsx
+function Box({ space, direction = 'row', children }) {
+  const spaceProperty = direction === 'row' ? 'marginRight' : 'marginBottom'
+
+  return (
+    <div
+      css={{
+        display: 'flex',
+        flexDirection: direction,
+      }}>
+      {React.Children.toArray(children).map((child, index, arr) => (
+        <div
+          css={{
+            ':not(:last-child)': {
+              [spaceProperty]: space,
+            },
+          }}>
+          {child}
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+Now our children can have additional margins and still have the correct spacing applied in between.
+
+```jsx
+<Box direction="column" space={10}>
+  <Child marginBottom={5} />
+  <Child marginBottom={20} />
+  <Child marginBottom={10} />
+</Box>
+```
+
+<Box
+  space={2.5}
+  marginTop={5}
+  marginBottom={5}
+  extend={{
+    backgroundColor: 'var(--highlight)',
+  }}>
+  {[1.25, 5, 2.5].map((margin) => (
+    <Box
+      width={50}
+      height={50}
+      marginBottom={margin}
+      extend={{ backgroundColor: 'rgb(149, 199, 198)' }}
+    />
+  ))}
+</Box>
+
+### Container element
+
+While this fixes one issue, it creates another one.<br />
+Now that we have a wrapping container around each child, we all of a sudden can't control which element is rendered.
+
+Imagine we want to render a list, thus using `ul` and `li`.<br />
+Right now, all of our children are wrapped in a `div` which would be a huge accessibility concern as screen readers would probably fail to get that right.
+
+But React already has a neat solution for that.<br />
+Instead of rendering a hard-coded element, we can instead use a passed prop to define the component.
+
+> Most generic `Box` implementations already accept an `as` prop.
+
+```jsx
+function Box({
+  as: Component = 'div',
+  space,
+  spaceElement: Container = 'div',
+  direction = 'row',
+  children,
+}) {
+  const spaceProperty = direction === 'row' ? 'marginRight' : 'marginBottom'
+
+  return (
+    <Component
+      css={{
+        display: 'flex',
+        flexDirection: direction,
+      }}>
+      {React.Children.toArray(children).map((child, index, arr) => (
+        <Container
+          css={{
+            ':not(:last-child)': {
+              [spaceProperty]: space,
+            },
+          }}>
+          {child}
+        </Container>
+      ))}
+    </Component>
+  )
+}
+```
+
+And there we go!
+
+```jsx
+<Box as="ul" direction="column" space={10} spaceElement="li">
+  <Child />
+  <Child />
+  <Child />
+</Box>
+```
+
+<Box
+  as="ul"
+  space={[2.5, 2.5]}
+  spaceType="container"
+  containerElement={(props) => (
+    <Box
+      as="li"
+      display="list-item"
+      {...props}
+      extend={{ backgroundColor: 'rgb(149, 199, 198)' }}
+    />
+  )}
+  marginTop={5}
+  marginBottom={5}
+  marginLeft={5}
+  extend={{
+    display: 'list',
+    backgroundColor: 'var(--highlight)',
+  }}>
+  {[1, 2, 3].map((index) => (
+    <>Child {index}</>
+  ))}
+</Box>
+
+## Summary
+
+To quickly sum it up: We went from plain CSS spacing to a reusable React component that incorporates all of those techniques, but in a simple convenient way. The result is a fully flexible and yet highly accessible `space` prop.<br />
+With that in place, spacing children has never been easier in React!
+
+## Credits
+
+Thanks to [Mark Dalgleish](https://twitter.com/markdalgleish) for showing me their implementation at [ReactiveConf 2019](https://reactiveconf.com).
+Thanks to my friends and collegues [Daniel](https://webcloud.se) and [Timon](https://timonflick.com) for reviewing this article!

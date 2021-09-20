@@ -1,0 +1,41 @@
+{
+  "title": "Spacing children in React",
+  "date": {
+    "day": 19,
+    "month": 9,
+    "year": 2021
+  },
+  "headings": [
+    [
+      "Spacing children with CSS",
+      "spacing-children-with-css",
+      2
+    ],
+    [
+      "Spacer component for everything",
+      "spacer-component-for-everything",
+      2
+    ],
+    [
+      "The space prop",
+      "the-space-prop",
+      2
+    ],
+    [
+      "Generic component",
+      "generic-component",
+      3
+    ],
+    [
+      "Horizontal layouts",
+      "horizontal-layouts",
+      3
+    ],
+    [
+      "Flexbox",
+      "flexbox",
+      3
+    ]
+  ],
+  "duration": 7
+}

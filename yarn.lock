@@ -3913,10 +3913,10 @@ keyv@^3.0.0:
   dependencies:
     json-buffer "3.0.0"
 
-kilvin@^2.0.9:
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/kilvin/-/kilvin-2.0.10.tgz#c2e2202adce19f3844ec3e7c563c4b58a78d04d4"
-  integrity sha512-+HlrbuBzyM2ftUp6qKP5Kz9Z8TGjqNM0jpNFFRrPIAamJOQehJY967vRS5pMikMOHty17jXL7JmspdGjkD8n3A==
+kilvin@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/kilvin/-/kilvin-3.0.1.tgz#e0bfe60fd81cfaed3fbcf1a074c113a1ee1b1d6c"
+  integrity sha512-1E4pkD16xj4iiHFusJemBsHW+dRgEid71nmjw54rs1bZmpWTNXlhvOL5ys66s+PAwR6/8deP11Tb6XgSZ/IxYw==
   dependencies:
     prop-types "^15.7.2"
 
