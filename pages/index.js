@@ -113,8 +113,8 @@ export default function Page() {
             <Link href="https://www.instagram.com/weser.farm/">
               self-sufficient life
             </Link>
-            .<br />I study psychology, learn norwegian language and do my
-            master's in practical computer science.
+            .<br />I study psychology, learn swedish language and do my master's
+            in practical computer science.
           </Box>
         </Layout>
       </Box>
