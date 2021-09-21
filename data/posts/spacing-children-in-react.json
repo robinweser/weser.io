@@ -35,7 +35,32 @@
       "Flexbox",
       "flexbox",
       3
+    ],
+    [
+      "Overwriting margins",
+      "overwriting-margins",
+      3
+    ],
+    [
+      "Container element",
+      "container-element",
+      3
+    ],
+    [
+      "The Future",
+      "the-future",
+      2
+    ],
+    [
+      "Summary",
+      "summary",
+      2
+    ],
+    [
+      "Credits",
+      "credits",
+      2
     ]
   ],
-  "duration": 7
+  "duration": 11
 }

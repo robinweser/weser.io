@@ -295,7 +295,9 @@ export default function BlogLayout({
             <Link href="https://twitter.com/robinweser" showExternIcon={false}>
               Twitter
             </Link>
-            ! You can also find me on{' '}
+            !
+            <br />
+            You can also find me on{' '}
             <Link href="https://github.com/robinweser" showExternIcon={false}>
               GitHub
             </Link>

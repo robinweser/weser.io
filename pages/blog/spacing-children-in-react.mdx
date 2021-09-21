@@ -93,7 +93,7 @@ But this is still not as simple as I want it to be.
 
 ## Spacer component for everything
 
-With Reacts release, we ventured into a new frontend era: component-based design.<br />
+With React's release, we ventured into a new frontend era: component-based design.<br />
 Instead of repeating our HTML and CSS over and over, we're now able to write components once and reuse them everything.
 
 This sourced all kinds of new ways to handle spacing within a component.<br />
@@ -125,7 +125,8 @@ Doing that, we run into an old problem again: We have to handle the last child.
 </Parent>
 ```
 
-> Another drawback of the Spacer component is the extra amount of empty HTML elements rendered all over the place, but let's ignore that for now.
+Another drawback of the Spacer component is the extra amount of empty HTML elements rendered all over the place, but let's ignore that for now.
+But, the Spacer component still has its staying in existence! Whenever we need single, individual spacers, the Spacer component comes in really handy!
 
 ## The `space` prop
 
@@ -412,12 +413,27 @@ And there we go!
   ))}
 </Box>
 
+## The Future
+
+A bright future is ahead. You might remember the `grid-gap` property which was mentioned earlier? It has been renamed to just `gap` and not only works with CSS Grids but also with Flexbox layouts!<br />
+
+Just recently, with Safari 14.0, the final missing browser implemented the `gap` property for flexbox as well. That means, spacing children could be as easy as the following:
+
+```jsx
+<div css={{ display: 'flex', gap: 10 }}>
+  <Child />
+  <Child />
+  <Child />
+</div>
+```
+
 ## Summary
 
-To quickly sum it up: We went from plain CSS spacing to a reusable React component that incorporates all of those techniques, but in a simple convenient way. The result is a fully flexible and yet highly accessible `space` prop.<br />
-With that in place, spacing children has never been easier in React!
+To quickly sum it up: We went from plain CSS spacing to a reusable React component that incorporates all of those techniques, but in a simple convenient way. The result is a fully flexible and yet highly accessible `space` prop.
+With that in place, spacing children has never been easier in React.<br />
+Even better, we'll be able to use the `gap` property soon and finally have a native, idiomatic solution built into CSS directly!
 
 ## Credits
 
 Thanks to [Mark Dalgleish](https://twitter.com/markdalgleish) for showing me their implementation at [ReactiveConf 2019](https://reactiveconf.com).
-Thanks to my friends and collegues [Daniel](https://webcloud.se) and [Timon](https://timonflick.com) for reviewing this article!
+Thanks to my friends [Daniel](https://webcloud.se), [Timon](https://timonflick.com) and [Kitty](https://kittygiraudel.com) for reviewing this article!
